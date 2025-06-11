@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>crystal products</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/contact.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+ <style>
+ body {
+  font-family: Arial, sans-serif;
+}
+
+/* Sidebar styles */
+#cart-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  max-width: 80%;
+  height: 100%;
+  background: #fff;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  padding: 20px;
+  z-index: 9999;
+}
+
+#cart-sidebar.active {
+  transform: translateX(0);
+}
+
+#cart-sidebar .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #333;
+}
+
+#cart-sidebar .close-btn:hover {
+  color: #ff0000;
+}
+
+#cart-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100vh;
+  background: white;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.3);
+  display: none; /* Hidden initially */
+  padding: 20px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+#cart-sidebar.active {
+  display: block; /* Show when active */
+}
+
+.cart-footer {
+  margin-top: 20px;
+}
+
+.cart-items .cart-item {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.quantity-controls button {
+  margin: 0 5px;
+}
+
+#cart-count {
+  font-weight: bold;
+}
+
+/* Button styles for demo */
+.btn {
+  padding: 6px 12px;
+  cursor: pointer;
+  margin: 5px;
+}
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+  color: white;
+}
+.btn-secondary {
+  background-color: #6c757d;
+  border: none;
+  color: white;
+}
+.btn-outline-success {
+  border: 1px solid #28a745;
+  color: #28a745;
+  background: none;
+}
+
+/* Product card */
+; /* Prevent overflow from images */
+.card {
+  width: 200px;
+  height: 250px; /* fixed height for card */
+  overflow: hidden;
+}
+/* Image styling: fill card width, fixed height, cover with cropping */
+.card img {
+  width: 100%;       /* Card ki width ke hisaab se image wide ho */
+  height: auto;      /* Height automatic adjust ho, aspect ratio maintain rahe */
+  display: block;
+  margin: 0 auto;
+  object-fit: contain; /* Poora image dikhe bina cut ya stretch ke */
+  max-height: 200px;  /* Card ke andar max height limit */
+}
+</style>
+<body>
+  <!-- Navbar Start -->
+<nav class="navbar navbar-expand-lg navbar-light px-3">
+  <!-- Logo left -->
+  <a class="navbar-brand fw-bold" href="index.html">
+    <img src="pictures/home page pictures/logo.jpg" alt="" height="100"   style="margin-left: 20px;">
+  </a>
+
+  <!-- Buttons + Hamburger on mobile -->
+  <div class="d-flex d-lg-none align-items-center ms-auto">
+    <!-- <button class="btn btn-outline-primary me-2">Add to Cart</button>
+    <a href="buy-now.html" class="btn btn-primary me-3">Buy Now</a> -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasMenu"
+      aria-controls="offcanvasMenu"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon""></span>
+    </button>
+  </div>
+
+  <!-- Navigation links desktop (center aligned) -->
+  <div class="collapse navbar-collapse justify-content-center d-none d-lg-flex">
+    <ul class="navbar-nav text-center">
+      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="about.html">About us</a></li>
+
+      <!-- Dropdown Start -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Products
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+        <li><a class="dropdown-item" href="health.html" style="color: #004080; font-size: 20px;">Health</a></li>
+        <li><a class="dropdown-item" href="jewelry.html" style="color: #004080; font-size: 20px;">Jewellery</a></li>
+        <li><a class="dropdown-item" href="raw.html" style="color: #004080; font-size: 20px;">Raw</a></li>
+      </ul>
+    </li>
+    <!-- Dropdown End -->
+
+      <li class="nav-item"><a class="nav-link" href="new arrival.html">New Arrival</a></li>
+      <li class="nav-item"><a class="nav-link" href="special-offer.html">Special Offer</a></li>
+      <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+    </ul>
+  </div>
+
+  <!-- Buttons desktop (right aligned) -->
+      <div class="d-flex align-items-center">
+        <a href="#" id="cart-button" class="btn btn-outline-primary position-relative me-3">
+          <i class="fas fa-shopping-cart"></i>
+          <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            0
+            <span class="visually-hidden">cart items</span>
+          </span>
+        </a>
+       
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Offcanvas menu for mobile navigation links -->
+<div
+  class="offcanvas offcanvas-end"
+  tabindex="-1"
+  id="offcanvasMenu"
+  aria-labelledby="offcanvasMenuLabel"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasMenuLabel" style="color: #004080;">Crystal Products</h5>
+    <button
+      type="button"
+      class="btn-close text-reset"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+       <!-- Dropdown Start -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Products
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+        <li><a class="dropdown-item" href="health.html" style="color: #004080; font-size: 20px;">Health</a></li>
+        <li><a class="dropdown-item" href="jewelry.html" style="color: #004080; font-size: 20px;">Jewellery</a></li>
+        <li><a class="dropdown-item" href="raw.html" style="color: #004080; font-size: 20px;">Raw</a></li>
+      </ul>
+    </li>
+    <!-- Dropdown End -->
+      <li class="nav-item"><a class="nav-link" href="new arrival.html">New Arrival</a></li>
+      <li class="nav-item"><a class="nav-link" href="special-offer.html">Special Offer</a></li>
+      <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+      <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+    </ul>
+  </div>
+</div>
+    <!-- contact start -->
+     <div class="container">
+    <div class="contact-box">
+      <div class="left">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7236.304751949557!2d67.0303709348877!3d24.92687850000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33f90157042d3%3A0x93d609e8bec9a880!2sAptech%20Computer%20Education%20North%20Nazimabad%20Center!5e0!3m2!1sen!2s!4v1747410907146!5m2!1sen!2s" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="right-container">
+        <form>
+        <h2 style="color: #004080;">Contact Us</h2>
+        <label for="Name">Name:</label><br>
+        <input type="text" id="name" placeholder="Enter your Name"><br><br>
+        <label for="Email">Email:</label><br>
+        <input type="email" id="email" placeholder="Enter your Email"><br><br>
+        <label for="Phone">Phone:</label><br>
+        <input type="text" id="phonenumber" placeholder="Enter your phone number"><br><br>
+        <label for="Message">Message:</label><br>
+        <textarea placeholder="Message" id="message"></textarea>
+        <button type="button" id="btn" onclick="validateForm()">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+    <!-- contact uc page end -->
+  
+    <!-- validation start -->
+<script>
+  function validateForm() {
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let phone = document.getElementById("phonenumber").value.trim();
+    let message = document.getElementById("message").value.trim();
+
+    // Name should contain only letters and spaces
+    let namePattern = /^[A-Za-z\s]+$/;
+    if (!name.match(namePattern)) {
+      alert("Name should only contain alphabetic characters.");
+      return false;
+    }
+
+    // Email format validation
+    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    if (!email.match(emailPattern)) {
+      alert("Please enter a valid email address.");
+      return false;
+    }
+
+    // Phone should be exactly 11 digits
+    let phonePattern = /^[0-9]{11}$/;
+    if (!phone.match(phonePattern)) {
+      alert("Phone number should be exactly 11 digits.");
+      return false;
+    }
+
+    // Message should not be empty
+    if (!message) {
+      alert("Please enter your message.");
+      return false;
+    }
+
+    alert("Your message has been delivered.");
+    return true;
+  }
+</script>
+
+
+
+<!-- footer start -->
+<footer>
+  <div class="footer-container">
+    <div class="footer-column">
+      <h2 style="text-align: center;">Crystal Store</h2>
+      <p>We bring you natural crystals that promote wellness and positivity. Each piece is handpicked and blessed with care.</p>
+      <div class="app-buttons">
+        <a href="https://play.google.com/store" target="_self">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play Store" />
+        </a>
+        <a href="https://www.apple.com/app-store/" target="_self">
+          <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" />
+        </a>
+      </div>
+    </div>
+    <div class="footer-column" style="text-align: center;">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+       Shop
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+        <li><a class="dropdown-item" href="health.html" style="color: #004080; font-size: 20px;">Health</a></li>
+        <li><a class="dropdown-item" href="jewelry.html" style="color: #004080; font-size: 20px;">Jewellery</a></li>
+        <li><a class="dropdown-item" href="raw.html" style="color: #004080; font-size: 20px;">Raw</a></li>
+      </ul>
+    </li></a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h3 style="text-align: center;">Follow Us</h3>
+      <div class="social-icons">
+        <a href="https://linkedin.com" target="_self"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="https://instagram.com" target="_self"><i class="fa-brands fa-square-instagram"></i></a>
+        <a href="https://facebook.com" target="_self"><i class="fa-brands fa-facebook"></i></a>
+        <a href="https://twitter.com" target="_self"><i class="fa-brands fa-twitter"></i></a>
+      </div>
+    </div>
+    <!-- <div class="footer-column"> -->
+      <!-- You can add another section here if needed -->
+    <!-- </div> -->
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 Crystal Store. All rights reserved.
+  </div>
+</footer>
+<!-- footer end -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

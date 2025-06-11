@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>crystal products</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/health.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+
+  /* Sidebar styles */
+  #cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    max-width: 80%;
+    height: 100%;
+    background: #fff;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    padding: 20px;
+    z-index: 9999;
+  }
+
+  #cart-sidebar.active {
+    transform: translateX(0);
+  }
+
+  #cart-sidebar .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #333;
+  }
+
+  #cart-sidebar .close-btn:hover {
+    color: #ff0000;
+  }
+
+  #cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100vh;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+    display: none;
+    /* Hidden initially */
+    padding: 20px;
+    overflow-y: auto;
+    z-index: 1000;
+  }
+
+  #cart-sidebar.active {
+    display: block;
+    /* Show when active */
+  }
+
+  .cart-footer {
+    margin-top: 20px;
+  }
+
+  .cart-items .cart-item {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+  }
+
+  .quantity-controls button {
+    margin: 0 5px;
+  }
+
+  #cart-count {
+    font-weight: bold;
+  }
+
+  /* Button styles for demo */
+  .btn {
+    padding: 6px 12px;
+    cursor: pointer;
+    margin: 5px;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    color: white;
+  }
+
+  .btn-outline-success {
+    border: 1px solid #28a745;
+    color: #28a745;
+    background: none;
+  }
+
+  /* Product card */
+  ;
+
+  /* Prevent overflow from images */
+  .card {
+    width: 200px;
+    height: 250px;
+    /* fixed height for card */
+    overflow: hidden;
+  }
+
+  /* Image styling: fill card width, fixed height, cover with cropping */
+  .card img {
+    width: 100%;
+    /* Card ki width ke hisaab se image wide ho */
+    height: auto;
+    /* Height automatic adjust ho, aspect ratio maintain rahe */
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+    /* Poora image dikhe bina cut ya stretch ke */
+    max-height: 200px;
+    /* Card ke andar max height limit */
+  }
+</style>
+
+<body>
+  <!-- Navbar Start -->
+  <nav class="navbar navbar-expand-lg navbar-light px-3">
+    <!-- Logo left -->
+    <a class="navbar-brand fw-bold" href="index.html">
+      <img src="pictures/home page pictures/logo.jpg" alt="" height="100" style="margin-left: 20px;">
+    </a>
+
+    <!-- Buttons + Hamburger on mobile -->
+    <div class="d-flex d-lg-none align-items-center ms-auto">
+      <!-- <button class="btn btn-outline-primary me-2">Add to Cart</button>
+    <a href="buy-now.html" class="btn btn-primary me-3">Buy Now</a> -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu"
+        aria-controls="offcanvasMenu" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+
+    <!-- Navigation links desktop (center aligned) -->
+    <div class="collapse navbar-collapse justify-content-center d-none d-lg-flex">
+      <ul class="navbar-nav text-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About us</a></li>
+
+        <!-- Dropdown Start -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Products
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+            <li><a class="dropdown-item" href="health.html" style="color: #004080; font-size: 20px;">Health</a></li>
+            <li><a class="dropdown-item" href="jewelry.html" style="color: #004080; font-size: 20px;">Jewellery</a></li>
+            <li><a class="dropdown-item" href="raw.html" style="color: #004080; font-size: 20px;">Raw</a></li>
+          </ul>
+        </li>
+        <!-- Dropdown End -->
+
+        <li class="nav-item"><a class="nav-link" href="new arrival.html">New Arrival</a></li>
+        <li class="nav-item"><a class="nav-link" href="special-offer.html">Special Offer</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <!-- Buttons desktop (right aligned) -->
+    <div class="d-flex align-items-center">
+      <a href="#" id="cart-button" class="btn btn-outline-primary position-relative me-3">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          0
+          <span class="visually-hidden">cart items</span>
+        </span>
+      </a>
+
+      </a>
+    </div>
+    </div>
+    </div>
+  </nav>
+
+  <!-- Offcanvas menu for mobile navigation links -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasMenuLabel" style="color: #004080;">Crystal Products</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+        <!-- Dropdown Start -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Products
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+            <li><a class="dropdown-item" href="health.html" style="color: #004080; font-size: 20px;">Health</a></li>
+            <li><a class="dropdown-item" href="jewelry.html" style="color: #004080; font-size: 20px;">Jewellery</a></li>
+            <li><a class="dropdown-item" href="raw.html" style="color: #004080; font-size: 20px;">Raw</a></li>
+          </ul>
+        </li>
+        <!-- Dropdown End -->
+        <li class="nav-item"><a class="nav-link" href="special-offer.html">Special offer</a></li>
+        <li class="nav-item"><a class="nav-link" href="new arrival.html">New Arrival</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <!DOCTYPE html>
+  <html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Health Crystals - Crystal Products</title>
+    <link rel="stylesheet" href="health.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="#">Crystal Products</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link active" href="health.html">Health</a></li>
+          <li class="nav-item"><a class="nav-link" href="jewelry.html">Jewelry</a></li>
+          <li class="nav-item"><a class="nav-link" href="rawstone.html">Raw Stones</a></li>
+        </ul>
+      </div>
+      <a href="buy-now.html" class="btn btn-primary">Buy Now</a>
+    </div>
+  </nav> -->
+
+    <div class="container">
+      <h1 class="mb-4" style="text-align: center; color: #004080; margin-top: 20px;">Health Crystals</h1>
+
+      <!-- Filter -->
+      <div class="mb-4 d-flex align-items-center">
+        <label for="filterSelect" class="form-label me-3">Filter by Type:</label>
+        <select id="filterSelect" class="form-select w-auto" onchange="filterProducts()">
+          <option value="all" selected>All Types</option>
+          <option value="pendant">Pendant</option>
+          <option value="bracelet">Bracelet</option>
+          <option value="ring">Ring</option>
+          <option value="earing">Earing</option>
+        </select>
+      </div>
+
+      <!-- Product cards grid -->
+      <div class="container mb-5">
+        <div class="row g-4">
+
+          <!-- Card 1 -->
+          <div class="col-sm-12 col-md-4 col-lg-3 product-card" data-category="earing">
+            <div class="card w-100">
+              <img src="pictures/health pictures/clear quartz.jpg" class="card-img-top" alt="Clear Quartz Earring" />
+              <div class="card-body">
+                <h5 class="card-title">Clear Quartz Earring</h5>
+                <p class="card-text">
+                  Clear quartz earrings are stylish and meaningful. Known as the "Master Healer," they enhance clarity,
+                  amplify energy. Perfect for spiritual balance and everyday elegance!
+                </p>
+                <p class="card-text fw-bold mb-1">Price: $22</p>
+                <p class="card-text">Color: <span class="badge bg-secondary">Clear</span></p>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-success">Add to cart</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="col-sm-12 col-md-4 col-lg-3 product-card" data-category="bracelet">
+            <div class="card w-100">
+              <img src="pictures/health pictures/carnelian bracelet.jpg" class="card-img-top"
+                alt="Carnelian Bracelet" />
+              <div class="card-body">
+                <h5 class="card-title">Carnelian Bracelet</h5>
+                <p class="card-text">
+                  Carnelian bracelets are bold and energizing! Known as the "Stone of Motivation," they boost
+                  confidence,
+                  creativity, and vitality while adding a fiery touch to any look. Perfect for staying inspired and
+                  empowered!
+                </p>
+                <p class="card-text fw-bold mb-1">Price: $22</p>
+                <p class="card-text">Color: <span class="badge" style="background-color: #a52a2a; color: white;">Rusty
+                    Red</span></p>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-success">Add to cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="col-sm-12 col-md-4 col-lg-3 product-card" data-category="set">
+            <div class="card w-100">
+              <img src="pictures/health pictures/green aventurine set.jpg" class="card-img-top"
+                alt="Green Aventurine Set" />
+              <div class="card-body">
+                <h5 class="card-title">Green Aventurine Set</h5>
+                <p class="card-text">
+                  Green Aventurine is the "Stone of Opportunity," bringing luck, prosperity, and healing energy. This
+                  jewelry set balances emotions and refreshes your spirit with soothing green vibes!
+                </p>
+                <p class="card-text fw-bold mb-1">Price: $35</p>
+                <p class="card-text">Color: <span class="badge bg-success">Green</span></p>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-success">Add to cart</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="col-sm-12 col-md-4 col-lg-3 product-card" data-category="set">
+            <div class="card w-100">
+              <img src="pictures/health pictures/amethyst.jpg" class="card-img-top" alt="Amethyst Jewelry Set" />
+              <div class="card-body">
+                <h5 class="card-title">Amethyst Jewelry Set</h5>
+                <p class="card-text">
+                  Amethyst is a calming and spiritual stone known to reduce stress and enhance intuition. This elegant
+                  set
+                  combines beauty and positive energy for daily wear or special occasions.
+                </p>
+                <p class="card-text fw-bold mb-1">Price: $35</p>
+                <p class="card-text">Color: <span class="badge bg-purple"
+                    style="background-color:#6f42c1;">Purple</span></p>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-success">Add to cart</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="col-sm-12 col-md-4 col-lg-3 product-card" data-category="ring">
+            <div class="card w-100">
+              <img src="pictures/health pictures/black tourmaline.jpg" class="card-img-top"
+                alt="Black Tourmaline Ring" />
+              <div class="card-body">
+                <h5 class="card-title">Black Tourmaline Ring</h5>
+                <p class="card-text">
+                  Known for protection and grounding, Black Tourmaline rings shield you from negative energy while
+                  offering sleek style. Perfect for everyday wear.
+                </p>
+                <p class="card-text fw-bold mb-1">Price: $28</p>
+                <p class="card-text">Color: <span class="badge bg-dark">Black</span></p>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-success">Add to cart</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="col-sm-12 col-md-4 col-lg-3 product-card" data-category="earing">
+            <div class="card w-100">
+              <img src="pictures/health pictures/rose quartz earing.jpg" class="card-img-top"
+                alt="Rose Quartz Earrings" />
+              <div class="card-body">
+                <h5 class="card-title">Rose Quartz Earrings</h5>
+                <p class="card-text">
+                  The stone of love, Rose Quartz, brings compassion and calm. These earrings add a romantic blush and
+                  positive vibes.
+                </p>
+                <p class="card-text fw-bold mb-1">Price: $25</p>
+                <p class="card-text">Color: <span class="badge bg-pink" style="background-color:#ff69b4;">Pink</span>
+                </p>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-success">Add to cart</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 7 -->
+          <div class="col-sm-12 col-md-4 col-lg-3 product-card" data-category="ring">
+            <div class="card w-100">
+              <img src="pictures/health pictures/ruby ring.jpg" class="card-img-top" alt="Ruby Ring" />
+              <div class="card-body">
+                <h5 class="card-title">Ruby Ring</h5>
+                <p class="card-text">
+                  A symbol of passion and vitality, Ruby rings energize and inspire confidence. They add a bold splash
+                  of
+                  red elegance.
+                </p>
+                <p class="card-text fw-bold mb-1">Price: $40</p>
+                <p class="card-text">Color: <span class="badge bg-danger">Red</span></p>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-success">Add to cart</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 8 -->
+          <div class="col-sm-12 col-md-4 col-lg-3 product-card" data-category="pendant">
+            <div class="card w-100">
+              <img src="pictures/health pictures/turquoise pendant.jpg" class="card-img-top" alt="Turquoise Pendant" />
+              <div class="card-body">
+                <h5 class="card-title">Turquoise Pendant</h5>
+                <p class="card-text">
+                  Turquoise is revered for healing and protection. This pendant is a beautiful talisman for positive
+                  energy
+                  and style.
+                </p>
+                <p class="card-text fw-bold mb-1">Price: $30</p>
+                <p class="card-text">Color: <span class="badge bg-info text-white">Turquoise</span></p>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-success">Add to cart</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 9 -->
+          <div class="col-sm-12 col-md-4 col-lg-3 product-card" data-category="necklace">
+            <div class="card w-100">
+              <img src="pictures/health pictures/garnet necklace.jpg" class="card-img-top" alt="Garnet Necklace" />
+              <div class="card-body">
+                <h5 class="card-title">Garnet Necklace</h5>
+                <p class="card-text">
+                  Garnet is a stone of passion and energy. This necklace energizes the wearer and adds timeless
+                  elegance.
+                </p>
+                <p class="card-text fw-bold mb-1">Price: $38</p>
+                <p class="card-text">Color: <span class="badge" style="background-color:#8b0000; color:white;">Dark
+                    Red</span></p>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-success">Add to cart</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 10 -->
+          <div class="col-sm-12 col-md-4 col-lg-3 product-card" data-category="pendant">
+            <div class="card w-100">
+              <img src="pictures/health pictures/clear quartz pendant.jpg" class="card-img-top"
+                alt="Clear Quartz Pendant" />
+              <div class="card-body">
+                <h5 class="card-title">Clear Quartz Pendant</h5>
+                <p class="card-text">
+                  Clear Quartz pendant amplifies energy and focus. A versatile piece that suits every style and
+                  occasion.
+                </p>
+                <p class="card-text fw-bold mb-1">Price: $28</p>
+                <p class="card-text">Color: <span class="badge bg-secondary">Clear</span></p>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-success">Add to cart</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 11 -->
+          <div class="col-sm-12 col-md-4 col-lg-3 product-card" data-category="bracelet">
+            <div class="card w-100">
+              <img src="pictures/health pictures/hematite bracelet.jpg" class="card-img-top"
+                alt="Hematite Beads Bracelet" />
+              <div class="card-body">
+                <h5 class="card-title">Hematite Beads Bracelet</h5>
+                <p class="card-text">
+                  Hematite is known for grounding and protection. These beads promote balance and calm, perfect for
+                  daily
+                  wear.
+                </p>
+                <p class="card-text fw-bold mb-1">Price: $20</p>
+                <p class="card-text">Color: <span class="badge bg-dark">Gray</span></p>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-success">Add to cart</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 12 -->
+          <div class="col-sm-12 col-md-4 col-lg-3 product-card" data-category="pendant">
+            <div class="card w-100">
+              <img src="pictures/health pictures/flourite tower pendant.jpg" class="card-img-top"
+                alt="Fluorite Tower Pendant" />
+              <div class="card-body">
+                <h5 class="card-title">Fluorite Tower Pendant</h5>
+                <p class="card-text">
+                  Fluorite is a protective and stabilizing stone. This tower pendant helps clear negative energy and
+                  boost
+                  focus.
+                </p>
+                <p class="card-text fw-bold mb-1">Price: $27</p>
+                <p class="card-text">Color: <span class="badge bg-primary">Multi</span></p>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-success">Add to cart</button>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 13 -->
+          <div class="col-sm-12 col-md-4 col-lg-3 product-card" data-category="pendant">
+            <div class="card w-100">
+              <img src="pictures/health pictures/citrine.jpg" class="card-img-top" alt="Fluorite Tower Pendant" />
+              <div class="card-body">
+                <h5 class="card-title">Citrine Pendant</h5>
+                <p class="card-text">
+                  A bright citrine pendant that encourages positivity and boosts metabolism, helping to relieve fatigue
+                  and enhance digestion.
+                </p>
+                <p class="card-text fw-bold mb-1">Price: $27</p>
+                <p class="card-text">Color: <span class="badge bg-primary">Multi</span></p>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-success">Add to cart</button>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 14 -->
+          <div class="col-sm-12 col-md-4 col-lg-3 product-card" data-category="ring">
+            <div class="card w-100">
+              <img src="pictures/health pictures/pyrite.jpg" class="card-img-top" alt="Fluorite Tower Pendant" />
+              <div class="card-body">
+                <h5 class="card-title">Pyrite Ring</h5>
+                <p class="card-text">
+                  A shiny pyrite ring that acts as a protective shield against negative energy and promotes physical
+                  strength and vitality.
+                </p>
+                <p class="card-text fw-bold mb-1">Price: $27</p>
+                <p class="card-text">Color: <span class="badge bg-primary">Multi</span></p>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-success">Add to cart</button>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 15 -->
+          <div class="col-sm-12 col-md-4 col-lg-3 product-card" data-category="pendant">
+            <div class="card w-100" >
+              <img src="pictures/health pictures/turquoise pendant.jpg" class="card-img-top" alt="Fluorite Tower Pendant" />
+              <div class="card-body">
+                <h5 class="card-title">Lapis Lazuli Pendant</h5>
+                <p class="card-text">
+                  A rich blue lapis lazuli pendant that enhances immune function and promotes mental clarity and calm.
+                </p>
+                <p class="card-text fw-bold mb-1">Price: $27</p>
+                <p class="card-text">Color: <span class="badge bg-primary">Multi</span></p>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-success">Add to cart</button>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Card 16 -->
+          <div class="col-sm-12 col-md-4 col-lg-3 product-card" data-category="ring">
+            <div class="card w-100">
+              <img src="pictures/health pictures/moonstone.jpg" class="card-img-top" alt="Fluorite Tower Pendant" />
+              <div class="card-body">
+                <h5 class="card-title">Moonstone Ring</h5>
+                <p class="card-text">
+                  An elegant moonstone ring known to balance hormones and aid in stress relief while encouraging intuition.
+                </p>
+                <p class="card-text fw-bold mb-1">Price: $27</p>
+                <p class="card-text">Color: <span class="badge bg-primary">Multi</span></p>
+                <div class="d-grid gap-2">
+                  <button class="btn btn-outline-success">Add to cart</button>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- footer start -->
+<footer>
+  <div class="footer-container">
+    <div class="footer-column">
+      <h2 style="text-align: center;">Crystal Store</h2>
+      <p>We bring you natural crystals that promote wellness and positivity. Each piece is handpicked and blessed with care.</p>
+      <div class="app-buttons">
+        <a href="https://play.google.com/store" target="_self">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play Store" />
+        </a>
+        <a href="https://www.apple.com/app-store/" target="_self">
+          <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" />
+        </a>
+      </div>
+    </div>
+    <div class="footer-column" style="text-align: center;">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+       Shop
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+        <li><a class="dropdown-item" href="health.html" style="color: #004080; font-size: 20px;">Health</a></li>
+        <li><a class="dropdown-item" href="jewelry.html" style="color: #004080; font-size: 20px;">Jewellery</a></li>
+        <li><a class="dropdown-item" href="raw.html" style="color: #004080; font-size: 20px;">Raw</a></li>
+      </ul>
+    </li></a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h3 style="text-align: center;">Follow Us</h3>
+      <div class="social-icons">
+        <a href="https://linkedin.com" target="_self"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="https://instagram.com" target="_self"><i class="fa-brands fa-square-instagram"></i></a>
+        <a href="https://facebook.com" target="_self"><i class="fa-brands fa-facebook"></i></a>
+        <a href="https://twitter.com" target="_self"><i class="fa-brands fa-twitter"></i></a>
+      </div>
+    </div>
+    <!-- <div class="footer-column"> -->
+      <!-- You can add another section here if needed -->
+    <!-- </div> -->
+  </div>
+
+  <div class="footer-bottom">
+    &copy; 2025 Crystal Store. All rights reserved.
+  </div>
+</footer>
+<!-- footer end -->
+
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+          <script src="health.js"></script>
+          <script>
+
+            const addToCartButtons = document.querySelectorAll('.btn-outline-success');
+            const cartCount = document.getElementById('cart-count');
+            const cartButton = document.getElementById('cart-button');
+
+            // Create cart sidebar element and add to body
+            const cartSidebar = document.createElement('div');
+            cartSidebar.id = 'cart-sidebar';
+            cartSidebar.innerHTML = `
+  <button id="top-close-cart" class="close-btn" aria-label="Close sidebar">×</button>
+  <h4>Your Cart</h4>
+  <div id="cart-items" class="cart-items"></div>
+  <div id="cart-summary" class="cart-summary">
+    <p id="total-items">Total Items: 0</p>
+    <p id="total-price">Total Price: $0.00</p>
+  </div>
+  <div class="cart-footer">
+    <button id="checkout-button" class="btn btn-primary">Checkout</button>
+  </div>
+`;
+            document.body.appendChild(cartSidebar);
+
+            let cartItems = [];
+
+            // Update cart count and totals in UI
+            function updateCartCount() {
+              const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+              cartCount.textContent = totalQuantity;
+              document.getElementById('total-items').textContent = `Total Items: ${totalQuantity}`;
+              updateTotalPrice();
+            }
+
+            // Update total price
+            function updateTotalPrice() {
+              const total = cartItems.reduce((sum, item) => sum + (item.quantity * parseFloat(item.price)), 0);
+              document.getElementById('total-price').textContent = `Total Price: $${total.toFixed(2)}`;
+            }
+
+            // Render cart items with quantity controls
+            function renderCartItems() {
+              const container = document.getElementById('cart-items');
+              container.innerHTML = '';
+
+              if (cartItems.length === 0) {
+                container.innerHTML = '<p class="empty-cart">Your cart is empty.</p>';
+                return;
+              }
+
+              cartItems.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('cart-item');
+                itemDiv.innerHTML = `
+      <span class="item-name">${item.name}</span>
+      <span class="item-price">$${item.price}</span>
+      <div class="quantity-controls">
+        <button class="btn btn-sm btn-secondary decrease" data-index="${index}">−</button>
+        <span class="quantity">${item.quantity}</span>
+        <button class="btn btn-sm btn-secondary increase" data-index="${index}">+</button>
+      </div>
+      <button class="btn btn-sm btn-danger remove-item" aria-label="Remove ${item.name}" data-index="${index}">×</button>
+    `;
+                container.appendChild(itemDiv);
+              });
+
+              // Event listeners for remove, increase, decrease
+              container.querySelectorAll('.remove-item').forEach(button => {
+                button.onclick = (e) => {
+                  const index = parseInt(e.target.dataset.index);
+                  cartItems.splice(index, 1);
+                  updateCartCount();
+                  renderCartItems();
+                };
+              });
+
+              container.querySelectorAll('.increase').forEach(button => {
+                button.onclick = (e) => {
+                  const index = parseInt(e.target.dataset.index);
+                  cartItems[index].quantity++;
+                  updateCartCount();
+                  renderCartItems();
+                };
+              });
+
+              container.querySelectorAll('.decrease').forEach(button => {
+                button.onclick = (e) => {
+                  const index = parseInt(e.target.dataset.index);
+                  if (cartItems[index].quantity > 1) {
+                    cartItems[index].quantity--;
+                  } else {
+                    cartItems.splice(index, 1);
+                  }
+                  updateCartCount();
+                  renderCartItems();
+                };
+              });
+            }
+
+            // Add item to cart or increase quantity if already present
+            addToCartButtons.forEach(button => {
+              button.addEventListener('click', (e) => {
+                const card = e.target.closest('.card');
+                const name = card.querySelector('.card-title').textContent.trim();
+                const priceText = card.querySelector('.card-text.fw-bold').textContent;
+                const price = priceText.replace('Price: $', '').trim();
+
+                const existingIndex = cartItems.findIndex(item => item.name === name);
+                if (existingIndex > -1) {
+                  cartItems[existingIndex].quantity++;
+                } else {
+                  cartItems.push({ name, price, quantity: 1 });
+                }
+
+                updateCartCount();
+                renderCartItems();
+              });
+            });
+
+            // Show cart sidebar on button click
+            cartButton.addEventListener('click', () => {
+              cartSidebar.classList.add('active');
+            });
+
+            // Close cart sidebar on top-right × button click
+            document.getElementById('top-close-cart').addEventListener('click', () => {
+              cartSidebar.classList.remove('active');
+            });
+
+            // when click on checkout button go to contact
+
+            document.getElementById('checkout-button').addEventListener('click', () => {
+              alert('Your order is now placed.');
+            });
+
+            // Initialize UI
+            updateCartCount();
+            renderCartItems();
+          </script>
+
+          <script src="js/health.js"></script>
+
+  </body>
+
+  </html>
